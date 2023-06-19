@@ -1,4 +1,4 @@
-import { getFilter } from 'redux/filters/filterSeletors';
+import { selectFilter } from 'redux/filters/filterSeletors';
 import css from './Filter.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFilter } from 'redux/filters/filtersSlice';
@@ -14,7 +14,7 @@ const Filter = () => {
     onSetFilter(event.target.value);
   };
 
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
   return (
     <>
       <label className={css.title}>

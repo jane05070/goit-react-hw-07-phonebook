@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import css from './ContactForm.module.css';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contacts/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFilteredContacts } from 'redux/contacts/contactsSelectors';
+import { addContact } from 'redux/contacts/contactsOperation';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -9,15 +10,23 @@ const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
+  const contacts = useSelector(selectFilteredContacts);
+
   const handleSubmit = e => {
     e.preventDefault();
+
+    const isContactExist = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (isContactExist) {
+      alert(`User with name ${name} is already in contacts`);
+      return;
+    }
 
     dispatch(addContact({ name, number }));
     setName('');
     setNumber('');
   };
-
- ;
 
   return (
     <form className={css.container} onSubmit={handleSubmit}>
